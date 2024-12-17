@@ -75,7 +75,7 @@ class Recipe:
             if ingredient not in Recipe.all_ingredients:
                     Recipe.all_ingredients.append(ingredient)
     
-    @staticmethod
+   
     def recipe_search(recipes, search_term):
         for recipe in recipes:
             if recipe.search_ingredient(search_term):

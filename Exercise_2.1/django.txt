@@ -1,0 +1,56 @@
+Django appears to be popular in the industry for its upstart ease and its ability to scale. In addition, Django appears to come with built in security features that are popular. Lastly Django seems to have been praised for its ability to  work with databases.
+--------------------------------------------------------------------------------------------------------------------------------
+Instagram
+
+Product/Service: Social media platform for sharing photos and videos.
+Use of Django: Django helps Instagram handle massive amounts of user data and manage backend infrastructure efficiently.
+
+Spotify
+
+Product/Service: Music streaming platform.
+Use of Django: Used for backend services, including data analysis and handling the web interface.
+
+Dropbox
+
+Product/Service: Cloud storage and file-sharing service.
+Use of Django: Used to handle user authentication and API endpoints for their web platform.
+
+Pinterest
+
+Product/Service: Social media platform for discovering and saving creative ideas.
+Use of Django: Handles web backend logic, APIs, and user authentication.
+
+Mozilla
+
+Product/Service: Open-source software foundation, known for the Firefox browser.
+Use of Django: Powers parts of their support site and developer tools.
+
+--------------------------------------------------------------------------------------------------------------------------------
+You need to develop a web application with multiple users.
+
+Yes, use Django.
+Why: Django’s built-in user authentication system and role-based access control make it well-suited for managing multiple users securely and efficiently.
+
+You need fast deployment and the ability to make changes as you proceed.
+
+Yes, use Django.
+Why: Django’s modular design and batteries-included approach support rapid prototyping and deployment while allowing easy updates.
+
+You need to build a very basic application, which doesn’t require any database access or file operations.
+
+No, don’t use Django.
+Why: Django is overkill for a simple application without database interaction. A lightweight framework like Flask would be more appropriate.
+
+You want to build an application from scratch and want a lot of control over how it works.
+
+Maybe, depends on your goals.
+Why: Django provides a lot of built-in features, but if you want extreme control and customization, a micro-framework like Flask or FastAPI might be better.
+
+You’re about to start working on a big project and are afraid of getting stuck and needing additional support.
+
+Yes, use Django.
+Why: Django has an active community, extensive documentation, and third-party packages, making it easier to find help and support for complex projects.
+
+
+Source:
+OpenAI. (2024, December 30). ChatGPT (GPT-4) [Large language model]. OpenAI.

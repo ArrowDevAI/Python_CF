@@ -46,7 +46,7 @@ class Recipe:
     def calc_difficulty(self):
 
         cook_time = self.cook_time
-        num_ingredients = len(self.ingredients)
+        num_ingredients = len(self.ingredients.split(','))
 
         if num_ingredients < 4 and cook_time < 10:
             self.difficulty = "Easy"

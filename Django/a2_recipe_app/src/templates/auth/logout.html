@@ -6,6 +6,7 @@
            /* Apply styles to center the content */
            body {
                display: flex;
+               flex-direction: column; /* Stack items vertically */
                justify-content: center;
                align-items: center;
                height: 100vh; /* Full viewport height */
@@ -14,10 +15,15 @@
                background-color: #f8f9fa; /* Light gray background */
            }
 
+           div {
+               margin-bottom: 20px; /* Add spacing below the "YOU LOGGED OUT" text */
+               font-size: 24px;
+           }
+
            a {
                text-decoration: none;
                color: #007bff; /* Bootstrap primary color */
-               font-size: 24px;
+               font-size: 20px;
                font-weight: bold;
            }
 
@@ -27,8 +33,7 @@
        </style>
    </head>
    <body>
-       <div>
-           Login to see your Recipes <a href="{% url 'login' %}">Login</a>
-       </div>
+       <div>YOU LOGGED OUT</div>
+       <a href="{% url 'login' %}">Login Again</a>
    </body>
 </html>

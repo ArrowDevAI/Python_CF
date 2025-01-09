@@ -18,10 +18,17 @@
 #     print(number)
 #     number += 1 
 
-number = 10
-list = []
-while (number <= 50):
-    print(number)
-    list.append(number)
-    number += 10
-print(list)
+# number = 10
+# list = []
+# while (number <= 50):
+#     print(number)
+#     list.append(number)
+#     number += 10
+# print(list)
+
+scores = [20, 30, 45, 63465, 34, 67, 20]
+sum=0
+for score in scores:
+    if score > sum:
+        sum = score
+print ("Max Score: ", sum)

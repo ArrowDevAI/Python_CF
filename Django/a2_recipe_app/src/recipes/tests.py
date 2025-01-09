@@ -1,6 +1,7 @@
 from django.test import TestCase
 from .models import Recipe
 from ingredients.models import Ingredient
+from django.urls import reverse
 
 class RecipeModelTest(TestCase):
 
@@ -72,4 +73,23 @@ class RecipeModelTest(TestCase):
                        f"Difficulty: {recipe.difficulty} | Ingredients: {recipe.ingredients.count()}"
         self.assertEqual(str(recipe), expected_str)
     
-  
+    def test_get_absolute_url(self):
+        recipe = Recipe.objects.first()
+        self.assertIsNotNone(recipe, "No book instances exist to test get_absolute_url.")
+        self.assertEqual(recipe.get_absolute_url(), f'/recipes/detail/{recipe.id}/')
+    
+    def test_main_view_template(self):
+        response = self.client.get(reverse('recipes:main'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'recipes/home.html')
+
+    def test_recipe_list_view_template(self):
+        response = self.client.get(reverse('recipes:list'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'recipes/list.html')
+
+    def test_recipe_detail_view_template(self):
+        recipe = Recipe.objects.first()
+        response = self.client.get(reverse('recipes:detail', kwargs={'pk': recipe.pk}))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'recipes/detail.html')

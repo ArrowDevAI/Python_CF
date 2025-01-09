@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+   <head>
+       <title>Recipe App</title>
+       <style>
+           .recipe-image {
+               width: 100px;
+               height: 100px;
+               object-fit: cover;
+           }
+       </style>
+   </head>
+   <body>
+       <h1>Recipe List</h1> 
+
+       <table border="1" cellpadding="5" cellspacing="5">    
+          <tr> 
+              <td><strong>Recipe Names</strong></td> 
+              <td><strong>Recipe Image</strong></td>    
+          </tr>
+
+        {% for object in object_list %}
+
+            <tr>
+                <td><a href="{{ object.get_absolute_url }}"> {{ object.name }} </a></td>
+                
+                <td><img src="{{ object.pic.url }}" class="recipe-image" /></td>
+
+            </tr>
+
+        {% endfor %}
+       </table>
+   </body>
+</html>

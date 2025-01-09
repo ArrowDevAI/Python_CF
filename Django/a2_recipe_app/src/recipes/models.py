@@ -1,6 +1,7 @@
 from django.db import models
 from ingredients.models import Ingredient
 from django.core.validators import MinValueValidator
+from django.urls import reverse
 
 
 class Recipe(models.Model):
@@ -10,6 +11,7 @@ class Recipe(models.Model):
         validators=[MinValueValidator(1)],
         help_text='Time in minutes')
     ingredients = models.ManyToManyField(Ingredient, related_name='recipes')
+    pic = models.ImageField(upload_to='recipes/', default='recipes/no_picture.jpg')
 
     def calc_difficulty(self):
 
@@ -27,10 +29,19 @@ class Recipe(models.Model):
 
         return self.difficulty
 
-    
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.calc_difficulty()
+        super().save(update_fields=['difficulty'])
+
+
     def __str__(self):
         num_ingredients = self.ingredients.count()
         return (
             f"Name: {self.name} | Cook Time: {self.cook_time} mins | "
             f"Difficulty: {self.difficulty} | Ingredients: {num_ingredients}"
         )
+    
+        
+    def get_absolute_url(self):
+       return reverse('recipes:detail', kwargs={'pk': self.pk})

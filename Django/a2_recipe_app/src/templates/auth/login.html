@@ -6,9 +6,11 @@
 
 <form action="" method="POST" >
    {% comment %} add Django security token {% endcomment %}
+
    {% csrf_token %}   
 
    {% comment %} print form received from view  {% endcomment %}
+   
    {{form}}           
 
    <button type="submit" >Login</button>

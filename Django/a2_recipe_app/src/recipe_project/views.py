@@ -3,7 +3,6 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render,redirect
 
 
-
 def login_view(request):
     error_message = None
     form = AuthenticationForm()

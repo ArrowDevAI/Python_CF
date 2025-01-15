@@ -2,12 +2,17 @@ from django.test import TestCase
 from .models import Recipe
 from ingredients.models import Ingredient
 from django.urls import reverse
+from django.contrib.auth.models import User
+from .forms import RecipeSearchForm
+
+
 
 class RecipeModelTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
     #Add ingredients to the test database for testing
+        cls.user = User.objects.create_user(username='testuser', password='password')
         cls.ingredient1 = Ingredient.objects.create(name="Butter")
         cls.ingredient2 = Ingredient.objects.create(name="Bread")
         cls.ingredient3 = Ingredient.objects.create(name="Cheese")
@@ -84,12 +89,105 @@ class RecipeModelTest(TestCase):
         self.assertTemplateUsed(response, 'recipes/home.html')
 
     def test_recipe_list_view_template(self):
+        self.client.login(username=self.user.username, password='password')
         response = self.client.get(reverse('recipes:list'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'recipes/list.html')
 
     def test_recipe_detail_view_template(self):
+        self.client.login(username=self.user.username, password='password')
         recipe = Recipe.objects.first()
         response = self.client.get(reverse('recipes:detail', kwargs={'pk': recipe.pk}))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'recipes/detail.html')
+
+class RecipeSearchFormTest(TestCase):
+    def setUp(self):
+        self.default_data = {
+            'recipe_title': 'Test Recipe',
+            'chart_type': '#1'
+        }
+
+    def test_form_valid_data(self):
+        form = RecipeSearchForm(data=self.default_data)
+        self.assertTrue(form.is_valid())
+
+    def test_invalid_recipe_title(self):
+        form = RecipeSearchForm(data={**self.default_data, 'recipe_title': ''})
+        self.assertFalse(form.is_valid())
+
+    def test_invalid_chart_type(self):
+        form = RecipeSearchForm(data={**self.default_data, 'chart_type': ''})
+        self.assertFalse(form.is_valid())
+    
+    def test_invalid_recipe_title(self):
+        form = RecipeSearchForm(data={**self.default_data, 'recipe_title': ''})
+        self.assertFalse(form.is_valid())
+
+    def test_invalid_chart_type(self):
+        form = RecipeSearchForm(data={**self.default_data, 'chart_type': ''})
+        self.assertFalse(form.is_valid())
+
+    def test_missing_chart_type(self):
+        form = RecipeSearchForm(data={'recipe_title': 'Test Recipe'})
+        self.assertFalse(form.is_valid())  # Chart type is required
+
+class RecipeSearchViewTests(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        # Setting up user and recipe data, similar to the RecipeModelTest
+        cls.user = User.objects.create_user(username='testuser', password='password')
+        cls.ingredient1 = Ingredient.objects.create(name="Butter")
+        cls.ingredient2 = Ingredient.objects.create(name="Bread")
+        cls.ingredient3 = Ingredient.objects.create(name="Cheese")
+        cls.recipe1 = Recipe.objects.create(name='Butter Cheese Recipe', cook_time=10)
+        cls.recipe2 = Recipe.objects.create(name='Cheese Salt Recipe', cook_time=15)
+        cls.recipe1.ingredients.add(cls.ingredient1, cls.ingredient2)
+        cls.recipe2.ingredients.add(cls.ingredient2, cls.ingredient3)
+
+    def setUp(self):
+        self.client.login(username='testuser', password='password')
+
+    def test_recipe_search_with_title(self):
+        # Simulating a search with a valid recipe title
+        data = {'recipe_title': 'Cheese', 'chart_type': '#1'}
+        response = self.client.post(reverse('recipes:search'), data)
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Butter Cheese Recipe')
+        self.assertContains(response, 'Cheese Salt Recipe')
+
+    def test_recipe_search_with_no_results(self):
+        # Search for a recipe that doesn't exist
+        data = {'recipe_title': 'Nonexistent', 'chart_type': '#1'}
+        response = self.client.post(reverse('recipes:search'), data)
+        
+        self.assertEqual(response.status_code, 200)
+
+    def test_recipe_search_all_recipes(self):
+        # Search with 'all' to return all recipes
+        data = {'recipe_title': 'all', 'chart_type': '#1'}
+        response = self.client.post(reverse('recipes:search'), data)
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Butter Cheese Recipe')
+        self.assertContains(response, 'Cheese Salt Recipe')
+
+    def test_recipe_search_rendering_dataframe(self):
+        # Check if DataFrame is correctly rendered in HTML
+        data = {'recipe_title': 'Cheese', 'chart_type': '#1'}
+        response = self.client.post(reverse('recipes:search'), data)
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '<table')  # Check for the HTML table
+        self.assertContains(response, 'Butter Cheese Recipe')  # Check that recipe data is in the table
+
+    def test_recipe_search_chart(self):
+        data = {'recipe_title': 'Cheese', 'chart_type': '#1'}  # Assuming chart_type #1 triggers chart generation
+        response = self.client.post(reverse('recipes:search'), data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'chart')  # Check that the chart is rendered
+    
+  

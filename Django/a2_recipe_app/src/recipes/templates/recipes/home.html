@@ -1,34 +1,17 @@
+
+{% load static %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'recipes/style.css' %}">
+    <script src="{% static 'recipes/home.js' %}" defer></script>
+</head>
+
 <!DOCTYPE html>
 <html>
-   <head>
-       <title>Recipe App</title>
-       <style>
-           /* Apply styles to center the content */
-           body {
-               display: flex;
-               justify-content: center;
-               align-items: center;
-               height: 100vh; /* Full viewport height */
-               margin: 0;
-               font-family: Arial, sans-serif;
-               background-color: #f8f9fa; /* Light gray background */
-           }
-
-           a {
-               text-decoration: none;
-               color: #007bff; /* Bootstrap primary color */
-               font-size: 24px;
-               font-weight: bold;
-           }
-
-           a:hover {
-               text-decoration: underline;
-           }
-       </style>
-   </head>
+    <title>Recipe App</title>
    <body>
        <div>
-           Login to see your Recipes <a href="{% url 'login' %}">Login</a>
+           <h1> Login to see your Recipes <a href="{% url 'login' %}">Login</a> </h1>
        </div>
    </body>
 </html>

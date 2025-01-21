@@ -15,13 +15,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Database configuration from environment variable
 db_from_env = dj_database_url.config(conn_max_age=500)
 
+
 # Update DATABASES with the parsed db_from_env config
 DATABASES = {
     'default': db_from_env
 }
 
-# Log the db_from_env to verify it's parsed correctly
-print("DB FROM ENV: ", db_from_env)
 
 # Other settings...
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-b2_^niz%8o5qyhx())jzz+e+#((e0vvzio(kb-k9o@ne73-w6s')

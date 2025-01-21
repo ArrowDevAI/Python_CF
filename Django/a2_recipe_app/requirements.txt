@@ -8,7 +8,6 @@ fonttools==4.55.3
 gunicorn==23.0.0
 kiwisolver==1.4.8
 matplotlib==3.10.0
-mysqlclient==2.2.6
 numpy==2.2.1
 packaging==24.2
 pandas==2.2.3
